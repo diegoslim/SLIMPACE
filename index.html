@@ -1,0 +1,461 @@
+<<<<<<< HEAD
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ9NFDBJF7"></script>
+	<script>
+  	window.dataLayer = window.dataLayer || [];
+  	function gtag(){dataLayer.push(arguments);}
+  	gtag('js', new Date());
+
+  	gtag('config', 'G-WJ9NFDBJF7');
+	</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Únete a Running Club by Slim, el mejor club de running para todos los niveles.">
+  <title>SLIMPACE</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Google Fonts para tipografía futurista -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0d0d0d; /* Negro profundo */
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1511945433027-54e5af24a1a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00d4ff; /* Efecto neón azul */
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #cccccc;
+      margin: 1rem 0;
+    }
+    .nav-links {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+    }
+    .nav-links a {
+      color: #cccccc;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover {
+      color: #00d4ff; /* Neón azul al pasar el mouse */
+      text-shadow: 0 0 5px #00d4ff;
+    }
+    .section {
+      padding: 5rem 0;
+      background-color: #1a1a1a; /* Gris oscuro */
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #00d4ff; /* Neón azul */
+      text-align: center;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+    .section p {
+      color: #cccccc;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .card {
+      background-color: #2b2b2b;
+      border: none;
+      color: #cccccc;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card-title {
+      color: #00d4ff;
+    }
+    .btn-custom {
+      background-color: #00d4ff;
+      color: #0d0d0d;
+      border: none;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .btn-custom:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 10px #00d4ff;
+    }
+    footer {
+      background-color: #0d0d0d;
+      padding: 2rem 0;
+      text-align: center;
+      border-top: 1px solid #333333;
+    }
+    footer p {
+      margin: 0;
+      color: #cccccc;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Únete a Running Club by Slim, el mejor club de running para todos los niveles.">
+  <title>SLIMPACE - Lead the running. Run towards what's coming.</title>
+  <link rel="icon" type="image/jpg" href="logo.jpg">
+  <!-- Enlace a Google Fonts para la tipografía Great Vibes -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0D0D0D;
+      color: #1A1A1A;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      overflow: hidden; /* Evita el desplazamiento cuando se abre el modal */
+    }
+    .hero {
+      text-align: center;
+      position: relative;
+      z-index: 1; /* Asegura que el contenido esté delante del fondo */
+    }
+    .hero h1 {
+      font-family: 'Akira Super Expandida Negrita', sans-serif;
+      font-size: 7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      margin: 0;
+      display: inline-block; /* Asegura que el h1 no rompa la alineación del superíndice */
+    }
+    /* Estilo para el símbolo ® */
+    .hero h1 sup {
+      font-size: 1.5rem; /* Tamaño más pequeño para el símbolo ® */
+      vertical-align: super; /* Alinea el símbolo como superíndice */
+      position: relative;
+      top: -1.5rem; /* Ajusta la posición vertical */
+      left: 0.2rem; /* Desplaza ligeramente a la derecha para mejor alineación */
+      color: #FFFFFF; /* Coincide con el color de SLIMPACE */
+    }
+    .hero p {
+      font-family: 'Great Vibes', cursive; 
+      font-size: 1.5rem;
+      font-weight: 400; 
+      color: #cccccc;
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+    }
+    /* Contenedor de botones */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem; /* Espacio entre los botones */
+      margin-top: 2rem;
+      position: absolute;
+      bottom: 2rem; /* Posiciona los botones en la parte inferior */
+      width: 100%;
+    }
+    /* Estilo de los botones y enlace */
+    .button-container a, .button-container button {
+      color: #FFFFFF;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      font-weight: 500;
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-decoration: none; /* Elimina el subrayado del enlace */
+    }
+    .button-container a:hover, .button-container button:hover {
+      color: #cccccc; /* Cambio de color al pasar el ratón */
+    }
+    /* Estilo del modal (ventana emergente) */
+    .modal {
+      display: none; /* Oculto por defecto */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Contenido del modal */
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente con efecto vidrio */
+      backdrop-filter: blur(10px); /* Efecto de desenfoque (vidrio) */
+      border-radius: 15px;
+      padding: 2rem;
+      width: 80%;
+      max-width: 400px;
+      color: #FFFFFF;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      /* Animación al abrir */
+      transform: scale(0.7);
+      opacity: 0;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    /* Clase para activar la animación al abrir */
+    .modal-content.show {
+      transform: scale(1);
+      opacity: 1;
+    }
+    /* Botón de cerrar el modal */
+    .modal-content .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: #FFFFFF;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    /* Estilo del texto dentro del modal */
+    .modal-content h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-content p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+>>>>>>> d64657f (Primer commit: subiendo mi página web)
+    }
+  </style>
+</head>
+<body>
+<<<<<<< HEAD
+  <!-- Hero Section -->
+  <section class="hero" id="inicio">
+    <h1>SLIMPACE</h1>
+    <p>Lidera el running. Corre hacia lo que viene.</p>
+    <div class="nav-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#eventos">Eventos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </section>
+
+  <!-- Sobre Nosotros -->
+  <section id="nosotros" class="section">
+    <div class="container">
+      <h2 class="section-title">Sobre Nosotros</h2>
+      <p>Somos una comunidad apasionada que vive el running con una nueva visión. Creamos experiencias únicas a través de entrenamientos semanales, eventos sociales y carreras locales, abiertas a corredores de todos los niveles. Súmate y corre hacia lo que viene.</p>
+    </div>
+  </section>
+
+  <!-- Eventos -->
+  <section id="eventos" class="section">
+    <div class="container">
+      <h2 class="section-title">Próximos Eventos</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Carrera 5K</h5>
+              <p class="card-text">Únete a nuestra carrera de 5K este sábado a las 7:00 AM.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Entrenamiento Grupal</h5>
+              <p class="card-text">Entrenamiento semanal todos los miércoles a las 6:00 PM.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Evento Social</h5>
+              <p class="card-text">Cena de comunidad el próximo viernes a las 7:00 PM.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="section">
+    <div class="container">
+      <h2 class="section-title">Contáctanos</h2>
+      <form>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo Electrónico</label>
+          <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="mensaje" class="form-label">Mensaje</label>
+          <textarea class="form-control" id="mensaje" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-custom d-block mx-auto">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 SLIMPACE. Todos los derechos reservados. | <a href="#contacto">Contacto</a> | <a href="https://instagram.com">Instagram</a></p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+=======
+  <section class="hero">
+    <!-- Título con el símbolo ® -->
+    <h1>SLIMPACE<sup>®</sup></h1>
+    <p>Lead the running. Run towards what's coming.</p>
+  </section>
+
+  <!-- Contenedor de botones -->
+  <div class="button-container">
+    <button onclick="openModal('nosotros-modal')">NOSOTROS</button>
+    <button onclick="openModal('eventos-modal')">EVENTOS</button>
+    <a href="https://www.instagram.com/slimpacemx/" target="_blank">INSTAGRAM</a>
+  </div>
+
+  <!-- Modal para NOSOTROS -->
+  <div id="nosotros-modal" class="modal">
+    <div class="modal-content">
+      <button class="close" onclick="closeModal('nosotros-modal')">×</button>
+      <h2>NOSOTROS</h2>
+      <p>Fundada con el espíritu de la evolución del running, SlimPace nació de una profunda pasión y compromiso con la innovación deportiva. SlimPace se enorgullece de fomentar una cultura y una comunidad que comparten la comprensión de que el running, y sus múltiples dimensiones, tiene el poder de transformarnos para mejor. Como club emergente, consolidaremos un prestigio por desafiar las normas y descubrir caminos innovadores para manifestar nuestra visión mediante experiencias y diseños vibrantes. Los objetivos primordiales de SlimPace se dividen en dos ejes: desarrollar instantes para el corredor contemporáneo que equilibran la practicidad y la sofisticación, y amplifican nuestro alcance a través de proyectos emblemáticos, perdurables y profundamente conmovedores que transforman de manera positiva la comunidad del running.</p>
+    </div>
+  </div>
+
+  <!-- Modal para EVENTOS -->
+  <div id="eventos-modal" class="modal">
+    <div class="modal-content">
+      <button class="close" onclick="closeModal('eventos-modal')">×</button>
+      <h2>EVENTOS </h2>
+      <p>Únete a nuestras próximas carreras y eventos de running. Sigue nuestras redes sociales y forma parte de la experiencia.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript para controlar los modales -->
+  <script>
+    // Función para abrir un modal
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = 'flex';
+      // Activar la animación al abrir
+      setTimeout(() => {
+        modal.querySelector('.modal-content').classList.add('show');
+      }, 10); // Pequeño retraso para asegurar que el display se aplique primero
+    }
+
+    // Función para cerrar un modal
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      const modalContent = modal.querySelector('.modal-content');
+      // Remover la clase para que la animación de cierre ocurra
+      modalContent.classList.remove('show');
+      // Esperar a que termine la animación antes de ocultar el modal
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300); // 300ms coincide con la duración de la transición
+    }
+
+    // Cerrar el modal al hacer clic fuera del contenido
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        closeModal(event.target.id);
+      }
+    }
+  </script>
+>>>>>>> d64657f (Primer commit: subiendo mi página web)
+</body>
+</html>
