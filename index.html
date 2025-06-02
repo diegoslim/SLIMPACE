@@ -15,17 +15,22 @@
       color: #1A1A1A;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       position: relative;
-      overflow: hidden; /* Evita el desplazamiento cuando se abre el modal */
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .hero {
       text-align: center;
       position: relative;
-      z-index: 1; /* Asegura que el contenido esté delante del fondo */
+      z-index: 1;
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     .hero h1 {
       font-family: 'Akira Super Expandida Negrita', sans-serif;
@@ -35,69 +40,69 @@
       letter-spacing: 0px;
       color: #FFFFFF;
       margin: 0;
-      display: inline-block; /* Asegura que el h1 no rompa la alineación del superíndice */
+      display: inline-block;
     }
-    /* Estilo para el símbolo ® */
     .hero h1 sup {
-      font-size: 1.5rem; /* Tamaño más pequeño para el símbolo ® */
-      vertical-align: super; /* Alinea el símbolo como superíndice */
+      font-size: 1.5rem;
+      vertical-align: super;
       position: relative;
-      top: -1.5rem; /* Ajusta la posición vertical */
-      left: 0.2rem; /* Desplaza ligeramente a la derecha para mejor alineación */
-      color: #FFFFFF; /* Coincide con el color de SLIMPACE */
+      top: -1.5rem;
+      left: 0.2rem;
+      color: #FFFFFF;
     }
     .hero p {
-      font-family: 'Great Vibes', cursive; 
+      font-family: 'Great Vibes', cursive;
       font-size: 1.5rem;
-      font-weight: 400; 
+      font-weight: 400;
       color: #cccccc;
       margin: 0.5rem 0;
       letter-spacing: 1px;
     }
-    /* Contenedor de botones */
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 2rem; /* Espacio entre los botones */
+      gap: 1rem;
       margin-top: 2rem;
       position: absolute;
-      bottom: 2rem; /* Posiciona los botones en la parte inferior */
-      width: 100%;
+      bottom: 2rem;
+      left: 0;
+      right: 0;
+      flex-wrap: wrap;
+      padding: 1rem 0;
+      z-index: 2; /* Aseguramos que los botones estén por encima del fondo */
     }
-    /* Estilo de los botones y enlace */
     .button-container a, .button-container button {
       color: #FFFFFF;
       text-transform: uppercase;
       font-family: 'Montserrat', sans-serif;
-      font-size: .8rem;
+      font-size: 0.8rem;
       font-weight: 500;
       background: none;
       border: none;
       padding: 0.5rem 1rem;
       cursor: pointer;
       transition: color 0.3s ease;
-      text-decoration: none; /* Elimina el subrayado del enlace */
+      text-decoration: none;
     }
     .button-container a:hover, .button-container button:hover {
-      color: #cccccc; /* Cambio de color al pasar el ratón */
+      color: #cccccc;
     }
-    /* Estilo del modal (ventana emergente) */
     .modal {
-      display: none; /* Oculto por defecto */
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 1000;
       justify-content: center;
       align-items: center;
+      overflow-y: auto;
     }
-    /* Contenido del modal */
     .modal-content {
-      background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente con efecto vidrio */
-      backdrop-filter: blur(10px); /* Efecto de desenfoque (vidrio) */
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
       border-radius: 15px;
       padding: 2rem;
       width: 80%;
@@ -105,17 +110,14 @@
       color: #FFFFFF;
       position: relative;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      /* Animación al abrir */
       transform: scale(0.7);
       opacity: 0;
       transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     }
-    /* Clase para activar la animación al abrir */
     .modal-content.show {
       transform: scale(1);
       opacity: 1;
     }
-    /* Botón de cerrar el modal */
     .modal-content .close {
       position: absolute;
       top: 1rem;
@@ -126,7 +128,6 @@
       background: none;
       border: none;
     }
-    /* Estilo del texto dentro del modal */
     .modal-content h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.5rem;
@@ -137,23 +138,75 @@
       font-size: 1rem;
       line-height: 1.5;
     }
+
+    /* Media Query para pantallas pequeñas (móviles) */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .hero h1 sup {
+        font-size: 0.8rem;
+        top: -0.8rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .button-container {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+      .button-container a, .button-container button {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.8rem;
+      }
+      .modal-content {
+        width: 90%;
+        max-width: 300px;
+        padding: 1.5rem;
+      }
+      .modal-content h2 {
+        font-size: 1.2rem;
+      }
+      .modal-content p {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Media Query para pantallas muy pequeñas (por ejemplo, iPhone SE) */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero h1 sup {
+        font-size: 0.6rem;
+        top: -0.6rem;
+      }
+      .hero p {
+        font-size: 0.8rem;
+      }
+      .button-container a, .button-container button {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
   <section class="hero">
-    <!-- Título con el símbolo ® -->
-    <h1>SLIMPACE<sup>®</sup></h1>
+    <h1>SLIMpace<sup>®</sup></h1>
     <p>Lead the running. Run towards what's coming.</p>
   </section>
 
-  <!-- Contenedor de botones -->
   <div class="button-container">
     <button onclick="openModal('nosotros-modal')">NOSOTROS</button>
     <button onclick="openModal('eventos-modal')">EVENTOS</button>
     <a href="https://www.instagram.com/slimpacemx/" target="_blank">INSTAGRAM</a>
   </div>
 
-  <!-- Modal para NOSOTROS -->
   <div id="nosotros-modal" class="modal">
     <div class="modal-content">
       <button class="close" onclick="closeModal('nosotros-modal')">×</button>
@@ -162,45 +215,52 @@
     </div>
   </div>
 
-  <!-- Modal para EVENTOS -->
   <div id="eventos-modal" class="modal">
     <div class="modal-content">
       <button class="close" onclick="closeModal('eventos-modal')">×</button>
-      <h2>EVENTOS </h2>
+      <h2>EVENTOS</h2>
       <p>Únete a nuestras próximas carreras y eventos de running. Sigue nuestras redes sociales y forma parte de la experiencia.</p>
     </div>
   </div>
 
-  <!-- JavaScript para controlar los modales -->
   <script>
-    // Función para abrir un modal
     function openModal(modalId) {
       const modal = document.getElementById(modalId);
-      modal.style.display = 'flex';
-      // Activar la animación al abrir
-      setTimeout(() => {
-        modal.querySelector('.modal-content').classList.add('show');
-      }, 10); // Pequeño retraso para asegurar que el display se aplique primero
-    }
-
-    // Función para cerrar un modal
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      const modalContent = modal.querySelector('.modal-content');
-      // Remover la clase para que la animación de cierre ocurra
-      modalContent.classList.remove('show');
-      // Esperar a que termine la animación antes de ocultar el modal
-      setTimeout(() => {
-        modal.style.display = 'none';
-      }, 300); // 300ms coincide con la duración de la transición
-    }
-
-    // Cerrar el modal al hacer clic fuera del contenido
-    window.onclick = function(event) {
-      if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
+      if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(() => {
+          modal.querySelector('.modal-content').classList.add('show');
+        }, 10);
+      } else {
+        console.error('Modal no encontrado:', modalId);
       }
     }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+    }
+
+    // Modificamos el evento para evitar interferencias
+    window.addEventListener('click', function(event) {
+      const modal = event.target.closest('.modal');
+      if (modal && event.target === modal) {
+        closeModal(modal.id);
+      }
+    });
+
+    // Evitamos que los clics en los botones se propaguen al window
+    document.querySelectorAll('.button-container button').forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.stopPropagation();
+      });
+    });
   </script>
 </body>
 </html>
